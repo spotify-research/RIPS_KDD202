@@ -1,0 +1,9 @@
+tensorflow
+matplotlib
+python-beam
+pytest
+fire
+scipy
+numpy
+pandas
+tqdm
