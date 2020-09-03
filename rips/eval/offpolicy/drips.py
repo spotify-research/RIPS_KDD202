@@ -23,10 +23,9 @@ from rips.eval.offpolicy.base import OffpolicyEstimator
 
 
 class DynamicRIPSEstimator(OffpolicyEstimator):
-
     @property
     def ess_threshold(self):
-        return self.config.get('ess_threshold', 0.0001)
+        return self.config.get("ess_threshold", 0.0001)
 
     def compute_score(self, log, target_rl, target_propensities):
         max_cutoff = np.max(self.cut_offs)
@@ -43,19 +42,20 @@ class DynamicRIPSEstimator(OffpolicyEstimator):
                 break
 
             logging_propensities[rank] = self.get_propensity(log, rank)
-            weight_vector[rank] = (target_propensities[rank] / logging_propensities[rank])
+            weight_vector[rank] = target_propensities[rank] / logging_propensities[rank]
 
         return list(weight_vector), reward_vector
 
     def get_estimate(self, score_tuples):
         def ESS(ws):
-            return 1. / ((ws ** 2).sum())
+            return 1.0 / ((ws ** 2).sum())
 
         weight_vector, reward_vector = self.extract_weights_reward(score_tuples)
 
         N, L = weight_vector.shape
         W = np.zeros((N, L))
         from collections import defaultdict
+
         ess_logger = defaultdict(list)
         for l in range(L):
             ws = np.ones(N)
@@ -67,7 +67,7 @@ class DynamicRIPSEstimator(OffpolicyEstimator):
                 # print('position, ESS, lookback: ', l, ESS(ws / float(N)), s)
 
                 ess = ESS(ws / float(N))
-                ess_logger[l].append({'ess': ess, 'lookback': s})
+                ess_logger[l].append({"ess": ess, "lookback": s})
                 bad_ess = ((ess / float(N)) < self.ess_threshold) or (ess > prev_ess)  # ess should not go up
                 if s > 0 and bad_ess:
                     break
@@ -75,7 +75,7 @@ class DynamicRIPSEstimator(OffpolicyEstimator):
                 prev_ess = ess
                 s += 1
 
-        logging.info('{} Weights Sum: {}'.format(self.name, W.sum(axis=0)))
+        logging.info("{} Weights Sum: {}".format(self.name, W.sum(axis=0)))
         scores = np.multiply(W, reward_vector)
         scores = scores.cumsum(axis=1)
         cut_off_est = self.index_cutoffs(scores)

@@ -108,7 +108,6 @@ def run_job(
     _init_estimators_fn = partial(init_estimators_fn, cutoffs=cut_off)
     _flatten_onpolicy_results = partial(flatten_onpolicy_results, cutoffs=cut_off)
 
-
     for trial in range(num_trials):
         logs = pipeline | "LogSimulation[T-{}]".format(trial) >> BeamRankerSimulator(num_logs, _init_env_fn)
 
@@ -118,10 +117,16 @@ def run_job(
             | "AddPredictions[T-{}]".format(trial)
             >> beam.Map(lambda x: addTargetPolicies(x[1], target_policy_names, policies=policies))
             | "ListwiseMetricRunner[T-{}]".format(trial)
-            >> BeamListwiseMetricRunner(_init_estimators_fn, init_target_policies_fn, max_cutoff=max(cut_off),)
+            >> BeamListwiseMetricRunner(
+                _init_estimators_fn,
+                init_target_policies_fn,
+                max_cutoff=max(cut_off),
+            )
             | "WriteToFile[T-{}]".format(trial)
             >> beam.io.WriteToText(
-                join(output_loc, "trial-{}-results".format(trial)), file_name_suffix=".json", coder=JsonCoder,
+                join(output_loc, "trial-{}-results".format(trial)),
+                file_name_suffix=".json",
+                coder=JsonCoder,
             )
         )
         (
@@ -133,7 +138,9 @@ def run_job(
             | "FlattenResultIntoSingleMap[T-{}]".format(trial) >> beam.Map(_flatten_onpolicy_results)
             | "WriteToOnPolicyFile[T-{}]".format(trial)
             >> beam.io.WriteToText(
-                join(output_loc, "trial-{}-onpolicy".format(trial)), file_name_suffix=".json", coder=JsonCoder,
+                join(output_loc, "trial-{}-onpolicy".format(trial)),
+                file_name_suffix=".json",
+                coder=JsonCoder,
             )
         )
     results = pipeline.run()

@@ -60,10 +60,10 @@ class InnerJoinTwo(beam.PTransform):
 
 class ApproxSampler(beam.PTransform):
     """
-        when beam.combiners.Sample is too slow use this to sample records
-            from a PCollection. The returned PCollection might not contain
-            the exact number of elements but would be close to the request
-            sample size.
+    when beam.combiners.Sample is too slow use this to sample records
+        from a PCollection. The returned PCollection might not contain
+        the exact number of elements but would be close to the request
+        sample size.
     """
 
     def __init__(self, sample_size):

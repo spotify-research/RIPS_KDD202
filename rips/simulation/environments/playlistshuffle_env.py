@@ -22,7 +22,6 @@ from rips.simulation.environments import Environment
 
 
 class PlaylistShuffleEnvironment(Environment):
-
     def get_interactions(self, context, rl):
         rewards = self.true_reward.reward_matrix()[context]
         labels = [rewards[c] for c in rl]
@@ -38,8 +37,7 @@ class PlaylistShuffleEnvironment(Environment):
         reward_mat = self.true_reward.reward_matrix()[context]
         candidates = np.squeeze(np.argwhere(reward_mat >= 0))
         true_rewards = reward_mat[candidates]
-        display_rl, propensities = self.logging_policy.act(
-            ListwiseLog(context, candidates, true_rewards))
+        display_rl, propensities = self.logging_policy.act(ListwiseLog(context, candidates, true_rewards))
 
         display_rl.extend(np.setdiff1d(candidates, display_rl))
         propensities = propensities + [None] * (len(display_rl) - len(propensities))
@@ -55,33 +53,28 @@ class PlaylistShuffleEnvironment(Environment):
 
 
 class SimulatedPlaylistTargetPolicy(Policy):
-
     def __init__(self, start_pos=0, step=1):
         super().__init__()
         self.start_pos = start_pos
         self.step = step
 
-    def propensity(self, rank: int, subaction_history: List[str],
-                   available_candidates: List[str], policy_data: Any):
+    def propensity(self, rank: int, subaction_history: List[str], available_candidates: List[str], policy_data: Any):
         raise NotImplementedError
 
     def predictions(self, N):
         if self.step > 0:
             return {
-                _id % N: float(1.0 / (rank + 1))
-                for rank, _id in enumerate(range(self.start_pos,
-                                                 self.start_pos + N))
+                _id % N: float(1.0 / (rank + 1)) for rank, _id in enumerate(range(self.start_pos, self.start_pos + N))
             }
         else:
             return {
                 _id % N: float(1.0 / (rank + 1))
-                for rank, _id in enumerate(range(self.start_pos,
-                                                 self.start_pos - N,
-                                                 self.step))
+                for rank, _id in enumerate(range(self.start_pos, self.start_pos - N, self.step))
             }
 
-    def act(self, log: ListwiseLog, predictions: Dict[str, float] = None,
-            max_cutoff: int = None) -> Tuple[List[str], List[float]]:
+    def act(
+        self, log: ListwiseLog, predictions: Dict[str, float] = None, max_cutoff: int = None
+    ) -> Tuple[List[str], List[float]]:
         N = len(log.all_candidate_ids)
         ranking = self.predictions(N)
         rl = list(zip(*sorted(ranking.items(), key=lambda x: x[1], reverse=True)))[0]

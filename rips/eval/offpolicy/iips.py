@@ -20,7 +20,6 @@ from rips.eval.offpolicy.base import OffpolicyEstimator
 
 
 class IIPSEstimator(OffpolicyEstimator):
-
     def compute_score(self, log, target_rl, target_propensities):
         max_cutoff = np.max(self.cut_offs)
 
@@ -36,7 +35,7 @@ class IIPSEstimator(OffpolicyEstimator):
                 break
 
             logging_propensities[rank] = self.get_propensity(log, rank)
-            weight_vector[rank] = (target_propensities[rank] / logging_propensities[rank])
+            weight_vector[rank] = target_propensities[rank] / logging_propensities[rank]
         #     print(rank,target_propensities[rank], logging_propensities[rank],weight_vector[rank])
         # print(weight_vector)
 
@@ -46,12 +45,11 @@ class IIPSEstimator(OffpolicyEstimator):
         weight_vector, reward_vector = self.extract_weights_reward(score_tuples)
 
         N = weight_vector.shape[0]
-        norm_weights = np.nan_to_num(
-            N * weight_vector / weight_vector.sum(axis=0))
+        norm_weights = np.nan_to_num(N * weight_vector / weight_vector.sum(axis=0))
         w_times_r = np.multiply(norm_weights, reward_vector)
         scores = np.cumsum(w_times_r, axis=1)
 
-        logging.info('{} Weights Sum: {}'.format(self.name, norm_weights.sum(axis=0)))
+        logging.info("{} Weights Sum: {}".format(self.name, norm_weights.sum(axis=0)))
         cut_off_est = self.index_cutoffs(scores)
 
         val_mean, val_rstd = self.get_mean_variance(cut_off_est)

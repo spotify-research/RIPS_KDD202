@@ -21,9 +21,7 @@ from rips.policy.listwise_log import ListwiseLog
 
 
 class OffpolicyEstimator(ABC):
-
-    def __init__(self, config: dict = None,
-                 cut_offs: Union[int, list] = None):
+    def __init__(self, config: dict = None, cut_offs: Union[int, list] = None):
         """
 
         :param logging_policy:

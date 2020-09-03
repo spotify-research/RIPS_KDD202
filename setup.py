@@ -22,17 +22,21 @@ from setuptools import setup
 HERE = os.path.abspath(os.path.dirname(__file__))
 
 REQUIRED_PACKAGES = [
-    'apache_beam[gcp]',
-    'tensorflow',
-    'matplotlib',
-    'fire',
-    'pandas',
-    'tqdm'
+    "tensorflow==2.3.0",
+    "matplotlib==3.3.1",
+    "apache-beam==2.23.0",
+    "jupyter==1.0.0",
+    "pytest==6.0.1",
+    "fire==0.3.1",
+    "scipy==1.4.1",
+    "numpy==1.19.0",
+    "pandas==1.1.1",
+    "tqdm==4.48.2",
 ]
 
 setup(
     name="rips",
-    version='0.0.1',
+    version="0.0.1",
     description="KDD 2020 RIPS",
     url="",
     packages=find_packages(),

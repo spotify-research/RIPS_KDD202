@@ -52,8 +52,8 @@ class Policy(object):
 
 class PredictionObjPolicy(Policy):
     """
-        Use this for if the predictions come from a trained
-         policy and provided using the prediction object.
+    Use this for if the predictions come from a trained
+     policy and provided using the prediction object.
     """
 
     @abstractmethod

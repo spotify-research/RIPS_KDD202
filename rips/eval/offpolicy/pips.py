@@ -19,7 +19,6 @@ from rips.eval.offpolicy.base import OffpolicyEstimator
 
 
 class PIPSEstimator(OffpolicyEstimator):
-
     def compute_score(self, log, target_rl, target_propensities):
         max_cutoff = np.max(self.cut_offs)
 
@@ -35,7 +34,7 @@ class PIPSEstimator(OffpolicyEstimator):
                 break
 
             logging_propensities[rank] = self.get_propensity(log, rank)
-            weight_vector[rank] = (target_propensities[rank] / logging_propensities[rank])
+            weight_vector[rank] = target_propensities[rank] / logging_propensities[rank]
 
         return list(weight_vector), reward_vector
 
@@ -52,13 +51,12 @@ class PIPSEstimator(OffpolicyEstimator):
                 else:
                     W[n, pos] = weight_vector[n, pos - 1] * weight_vector[n, pos]
 
-        norm_weights = np.nan_to_num(
-            N * W / W.sum(axis=0))
+        norm_weights = np.nan_to_num(N * W / W.sum(axis=0))
         # print("PIPS", norm_weights)
         w_times_r = np.multiply(norm_weights, reward_vector)
         scores = np.cumsum(w_times_r, axis=1)
 
-        logging.info('{} Weights Sum: {}'.format(self.name, norm_weights.sum(axis=0)))
+        logging.info("{} Weights Sum: {}".format(self.name, norm_weights.sum(axis=0)))
         cut_off_est = self.index_cutoffs(scores)
 
         val_mean, val_rstd = self.get_mean_variance(cut_off_est)

@@ -24,13 +24,10 @@ def test_PlaylistShuffleEnvironment():
     N = 10
     num_logs = 10
     true_rewards = BetaDistributionRewards(N, alpha=3, beta=4)
-    logging_policy = UniformLoggingPolicy(
-        base_policy=SimulatedPlaylistTargetPolicy(N))
+    logging_policy = UniformLoggingPolicy(base_policy=SimulatedPlaylistTargetPolicy(N))
     user_sim = NoNoiseUserSimulator(depth=10)
 
-    env = PlaylistShuffleEnvironment(
-        num_logs, 1,
-        true_rewards, logging_policy, user_sim)
+    env = PlaylistShuffleEnvironment(num_logs, 1, true_rewards, logging_policy, user_sim)
 
     log = env.next_log()
 
@@ -42,15 +39,11 @@ def test_PlaylistShuffleEnvironment_shorter_depth():
     N = 10
     num_logs = 5
     true_rewards = BetaDistributionRewards(N, alpha=3, beta=4)
-    logging_policy = EpsilonGreedyLoggingPolicy(
-        base_policy=SimulatedPlaylistTargetPolicy(N))
+    logging_policy = EpsilonGreedyLoggingPolicy(base_policy=SimulatedPlaylistTargetPolicy(N))
     user_sim = NoNoiseUserSimulator(depth=5)
 
-    env = PlaylistShuffleEnvironment(
-        num_logs, 1,
-        true_rewards, logging_policy, user_sim)
-    env.generate_contexts(
-        num_uniq_contexts=1, count=num_logs)
+    env = PlaylistShuffleEnvironment(num_logs, 1, true_rewards, logging_policy, user_sim)
+    env.generate_contexts(num_uniq_contexts=1, count=num_logs)
     log = env.next_log()
 
     assert len(log.candidates) == 10

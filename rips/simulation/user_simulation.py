@@ -56,11 +56,11 @@ class UserSimulator(object):
 
 class ImpatientNoNoiseUserSimulator(UserSimulator):
     """
-        According to this model, the user sequentially traverses a ranked list,
-        considering each item at a time, and decides the reward by sampling from
-        a bernoulli distribution where the `p=true reward of the item`. In addition,
-        the user abandons the ranked list according to a geometric distribution with
-        a given theta parameter.
+    According to this model, the user sequentially traverses a ranked list,
+    considering each item at a time, and decides the reward by sampling from
+    a bernoulli distribution where the `p=true reward of the item`. In addition,
+    the user abandons the ranked list according to a geometric distribution with
+    a given theta parameter.
 
     """
 
@@ -87,9 +87,9 @@ class ImpatientNoNoiseUserSimulator(UserSimulator):
 
 class NoNoiseUserSimulator(UserSimulator):
     """
-        According to this model, the user sequentially traverses a ranked list,
-        considering each item at a time, and decides the reward by sampling from
-        a bernoulli distribution where the `p=true reward of the item`.
+    According to this model, the user sequentially traverses a ranked list,
+    considering each item at a time, and decides the reward by sampling from
+    a bernoulli distribution where the `p=true reward of the item`.
 
     """
 
@@ -118,12 +118,12 @@ class NoNoiseUserSimulator(UserSimulator):
 
 class HistoryAwareNoNoiseUserSimulator(UserSimulator):
     """
-        History Aware User simulator that introduces reward interactions when a
-        user is interacting with a ranked list. According to this model,
-        the user sequentially traverses a ranked list, considering each item at a time,
-        and decides the reward by sampling from a bernoulli distribution where the
-        `p=true reward of the item`. In addition, when `rank > 1`, the true reward
-        is multiplied by a factor is the prior reward is negative.
+    History Aware User simulator that introduces reward interactions when a
+    user is interacting with a ranked list. According to this model,
+    the user sequentially traverses a ranked list, considering each item at a time,
+    and decides the reward by sampling from a bernoulli distribution where the
+    `p=true reward of the item`. In addition, when `rank > 1`, the true reward
+    is multiplied by a factor is the prior reward is negative.
 
     """
 
@@ -151,12 +151,12 @@ class HistoryAwareNoNoiseUserSimulator(UserSimulator):
 
 class CascadeHistoryAwareNoNoiseUserSimulator(UserSimulator):
     """
-        Cascade History Aware User simulator that introduces reward interactions when a
-        user is interacting with a ranked list. According to this model,
-        the user sequentially traverses a ranked list, considering each item at a time,
-        and decides the reward by sampling from a bernoulli distribution where the
-        `p=true reward of the item`. When `rank > 1`, and the true reward for `rank - 1` is
-        negative, then, all subsequent items get a negative reward.
+    Cascade History Aware User simulator that introduces reward interactions when a
+    user is interacting with a ranked list. According to this model,
+    the user sequentially traverses a ranked list, considering each item at a time,
+    and decides the reward by sampling from a bernoulli distribution where the
+    `p=true reward of the item`. When `rank > 1`, and the true reward for `rank - 1` is
+    negative, then, all subsequent items get a negative reward.
 
     """
 

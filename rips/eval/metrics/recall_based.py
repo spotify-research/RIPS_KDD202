@@ -23,7 +23,7 @@ import numpy as np
 
 
 def recall(judged_ranked_list, ideal_grades, ret_rels=None, tot_true_rels=None):
-    """ Computes recall for the given ranked list
+    """Computes recall for the given ranked list
 
     Args:
         judged_ranked_list (List[int]): judged ranked list (list of 1s & 0s).

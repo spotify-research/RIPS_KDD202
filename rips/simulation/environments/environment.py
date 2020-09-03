@@ -33,31 +33,30 @@ class ContextSimulator(Enum):
 class Environment(ABC):
     context_list = []
 
-    def __init__(self,
-                 num_logs,
-                 num_uniq_contexts,
-                 true_reward: TrueRewardSimulator,
-                 logging_policy: Policy,
-                 user_simulator: UserSimulator):
+    def __init__(
+        self,
+        num_logs,
+        num_uniq_contexts,
+        true_reward: TrueRewardSimulator,
+        logging_policy: Policy,
+        user_simulator: UserSimulator,
+    ):
         self.logging_policy = logging_policy
         self.user_simulator = user_simulator
         self.true_reward = true_reward
         self.generate_contexts(num_uniq_contexts=num_uniq_contexts, count=num_logs)
 
-    def generate_contexts(self,
-                          num_uniq_contexts: int,
-                          count: int,
-                          simulator: ContextSimulator = ContextSimulator.UniformRandom):
+    def generate_contexts(
+        self, num_uniq_contexts: int, count: int, simulator: ContextSimulator = ContextSimulator.UniformRandom
+    ):
         if simulator == ContextSimulator.UniformRandom:
-            self.context_list = list(
-                np.random.randint(num_uniq_contexts, size=count))
+            self.context_list = list(np.random.randint(num_uniq_contexts, size=count))
 
     def next_context(self) -> int:
         try:
             return self.context_list.pop()
         except IndexError:
-            raise Exception("Make sure generate_contexts() is "
-                            "called before generating logs.")
+            raise Exception("Make sure generate_contexts() is " "called before generating logs.")
 
     def next_log(self) -> ListwiseLog:
         return self._next_log(self.next_context())
