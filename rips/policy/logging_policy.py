@@ -120,9 +120,6 @@ class EpsilonGreedyLoggingPolicy(LoggingPolicy):
         self, rank: int, subaction_history: List[str], available_candidates: List[str], policy_data: Any
     ) -> Dict[str, float]:
         base_ranking, _ = policy_data
-        # if self.with_replacement:
-        #     best_action_index = available_candidates.index(base_ranking[rank])
-        # else:
         best_action_index = -1
         for idx, _id in enumerate(base_ranking):
             if _id not in subaction_history:
@@ -169,31 +166,8 @@ class ThompsonSamplingLoggingPolicy(LoggingPolicy):
         self, rank: int, subaction_history: List[str], available_candidates: List[str], policy_data: Any
     ) -> Dict[str, float]:
         raise NotImplementedError
-        # propensities = []
-        # for rank in range(max_cutoff):
-        #     propensities.append(
-        #         {_id: base_propensities[idx] for idx, _id in
-        #          enumerate(base_ranking)})
-        # return propensities
 
     def act(
         self, log: ListwiseLog, predictions: Dict[str, float] = None, max_cutoff: int = None
     ) -> Tuple[List[str], List[float]]:
         raise NotImplementedError
-        # base_ranking, propensities = self.base_ranking(
-        #     log, predictions, len(log.candidates))
-        # if self.with_replacement:
-        #     samples = np.random.choice(
-        #         len(base_ranking),
-        #         size=len(log.candidates),
-        #         p=propensities,
-        #         replace=True)
-        # else:
-        #     samples = np.random.choice(
-        #         len(base_ranking),
-        #         size=len(base_ranking),
-        #         p=propensities,
-        #         replace=False)
-        # rl, propensities = zip(*[(base_ranking[sample], propensities[sample])
-        #                          for sample in samples])
-        # return list(rl), list(propensities)

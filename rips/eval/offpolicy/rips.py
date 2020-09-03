@@ -50,7 +50,6 @@ class RIPSEstimator(OffpolicyEstimator):
         prev_W = np.zeros(N)
         W = np.zeros((N, L))
 
-        # TODO: vectorize this ?
         for l in range(L):
             for n in range(N):
                 logW[n, l] = prev_W[n] + np.log(weight_vector[n, l])

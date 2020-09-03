@@ -26,7 +26,6 @@ def init_env_fn(num_logs, num_contexts, true_rewards, policies, depth):
     from rips.simulation import CascadeHistoryAwareNoNoiseUserSimulator
     from rips.simulation import PlaylistShuffleEnvironment
 
-    # user_sim = NoNoiseUserSimulator(depth=DEPTH, threshold=None)
     user_sim = CascadeHistoryAwareNoNoiseUserSimulator(depth=depth)
     on_policy_envs = {}
 
@@ -48,9 +47,6 @@ def init_estimators_fn(cutoffs):
         IIPSEstimator(cut_offs=cutoffs),
         PIPSEstimator(cut_offs=cutoffs),
         RIPSEstimator(cut_offs=cutoffs),
-        # PIEstimator(cut_offs=CUT_OFFS),
-        # DynamicRIPSEstimator(cut_offs=CUT_OFFS, config={}),
-        # DynamicRIPSEstimatorThreshold(cut_offs=CUT_OFFS, config={"ess_threshold": 0.0001}),
     ]
     return estimators
 

@@ -27,15 +27,15 @@ DEPTH = 10  # Max Number of tracks the simulated user will consider
 SLATE_LIMIT = 10
 CUT_OFFS = [3]  # [1, 3, 5, 10]
 DATAFLOW_ARGS = {
-    "project": "tr-research",
-    "temp_location": "gs://tr-ml/dataflow/tmp/",
-    "staging_location": "gs://tr-ml/dataflow/staging",
+    "project": "{INSERT-PROJECT-NAME-HERE}",
+    "temp_location": "gs://{INSERT-BUCKET-NAME-HERE}/dataflow/tmp/",
+    "staging_location": "gs://{INSERT-BUCKET-NAME-HERE}/dataflow/staging",
     "worker_machine_type": "n1-standard-8",
     "autoscaling_algorithm": "THROUGHPUT_BASED",
     "setup_file": "./setup.py",
     "subnetwork": "https://www.googleapis.com/compute/v1/projects/xpn-master/regions/europe-west1/subnetworks/xpn-euw1",
     "region": "europe-west1",
-    "service_account": "tr-datasets@tr-research.iam.gserviceaccount.com",
+    "service_account": "{INSERT-SERVICE-ACCOUNT-NAME-HERE}",
     "runner": "DataflowRunner",
 }
 

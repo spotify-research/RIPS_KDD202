@@ -49,7 +49,6 @@ class InnerJoinTwo(beam.PTransform):
 
         for instance in itertools.product(*value_vals):
             vals = dict(zip(value_keys, instance))
-            # TODO: This might be expensive. Find alternatives
             c = {}
             for k, v in vals.items():
                 c.update(v)
