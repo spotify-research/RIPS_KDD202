@@ -24,12 +24,12 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 REQUIRED_PACKAGES = [
     "tensorflow==2.3.0",
     "matplotlib==3.3.1",
-    "apache-beam==2.23.0",
+    "apache-beam[gcp]==2.23.0",
     "jupyter==1.0.0",
     "pytest==6.0.1",
     "fire==0.3.1",
     "scipy==1.4.1",
-    "numpy==1.19.0",
+    "numpy==1.16.0",
     "pandas==1.1.1",
     "tqdm==4.48.2",
 ]
